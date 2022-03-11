@@ -8,9 +8,11 @@
 int yylex(void); // -Wall : avoid implicit call
 int yyerror(const char*); // on fonctions defined by the generator
 %}
-%token NUMBER // kinds of non-trivial tokens expected from the lexer
-%start expression // main non-terminal
+%token NUMBER // kinds of non-trivial tokens expected from the lexeri
+%token PT_VIRG
+%start commande // main non-terminal
 %% // denotes the begining of the grammar with bison-specific syntax
+commande : expression PT_VIRG;
 expression: // an expression is
 expression '+' term // either a sum of an expression and a term
 | expression '-' term // or an expression minus a term
