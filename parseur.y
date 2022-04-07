@@ -8,12 +8,16 @@
     int yylex(void); // -Wall : avoid implicit call
     int yyerror(const char*); // on fonctions defined by the generator
 %}
-%token NUMBER // kinds of non-trivial tokens expected from the lexer
+%union { double dval; int ival; } ;
+%token PT_VIRG
+%token <dval> NUMBER
+%type <dval> expression 
+%start result // main non-terminal
 %left '+' '-'
 %left '*' '%'
 %nonassoc UMOINS
-%start expression    // main non-terminal
-%% // denotes the begining of the grammar with bison-specific syntax 
+%% // denotes the begining of the grammar with bison-specific syntax
+result: expression PT_VIRG
 expression:
 expression '+' expression { $$ = $1+$3; }
 | expression '-' expression { $$ = $1-$3; }
