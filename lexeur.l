@@ -8,7 +8,7 @@
 #include "parseur.tab.h" // token constants defined in parseur.y via #define
 %}
 %%
-0|[1-9][0-9]* { printf("lex::NUMBER %s\n",yytext); return NUMBER; }
+0|[0][.][0-9]|[1-9]*[.]?[0-9]* { printf("lex::NUMBER %s\n",yytext); return NUMBER; }
 [ \t\n] { ; } // ignore space and tab
 [;]	{ return PT_VIRG; }
 . { printf("lex::char %s\n",yytext); return yytext[0]; } // other one-%%
