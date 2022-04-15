@@ -1,4 +1,4 @@
-/* file lexeur.l
+/* file lexeur.l // [\n] { return 0; } exit sucessfully
 * compilation: flex lexeur.l
 * result: lex.yy.c = lexical analyser in C
  int yywrap(void){ return 1; } // function called at the end of the file 
@@ -13,7 +13,7 @@
     yylval.num=atoi(yytext);
      return NUMBER;
 }
-[ \t] { ; } // ignore space and tab
-[\n] { return 0; } // exit sucessfully
+[ \t\n] { ; } // ignore space and tab
+[;]	{ return PT_VIRG; }
 . { printf("lex::char %s\n",yytext); return yytext[0]; } // other one-%%
 %%

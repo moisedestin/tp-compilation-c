@@ -18,28 +18,24 @@ int num;
 } ;
 %type <exp> expression
 %token <num> NUMBER 
+%token PT_VIRG
 %start result // main non-terminal
 %left '+' '-'
 %left '*'
 %nonassoc UMOINS
 %% // denotes the begining of the grammar with bison-specific syntax
-result: expression { *pT = $1; }
+ 
+result: expression PT_VIRG { *pT = $1; };
 expression:
-expression '+' expression { 
-    puts("+");
-    $$ = newBinaryAST('+',$1,$3);
-        puts("+ apres");
+expression '+' expression {  
+    $$ = newBinaryAST('+',$1,$3); 
 }
-| expression '-' expression { 
-        puts("-");
-
+| expression '-' expression {  
     $$ = newBinaryAST('-',$1,$3);
-     }
-| expression '*' expression { 
-        puts("*");
-
+}
+| expression '*' expression {  
     $$ = newBinaryAST('*',$1,$3);
-     }
+}
 | '(' expression ')' { $$ = $2; }
 | '-' expression %prec UMOINS { $$ = newUnaryAST('M',$2); }
 | NUMBER { $$ = newLeafAST($1); }
