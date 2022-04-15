@@ -21,7 +21,7 @@ int num;
 %token PT_VIRG
 %start result // main non-terminal
 %left '+' '-'
-%left '*'
+%left '*' '%'
 %nonassoc UMOINS
 %% // denotes the begining of the grammar with bison-specific syntax
  
