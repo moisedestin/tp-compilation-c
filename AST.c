@@ -55,3 +55,66 @@ void printAST(AST t)
   }
 }
 
+void affichageCode(AST t)
+{	
+  if(t->left == NULL) {
+    printf("CsteNb %d \n",t->val); 
+  }  
+  else {
+ 
+      affichageCode(t->left); 
+      if(t->right != NULL)
+        affichageCode(t->right);
+
+    
+     switch(t->car){
+          case '+' :
+            printf("AddiNb\n"); 
+            break;
+          case '*' :
+            printf("MultNb\n"); 
+            break;
+          case '-' :
+            printf("SubiNb\n"); 
+            break;
+          case 'M' :
+            printf("NegaNb\n"); 
+            break; 
+        }	 
+      
+    } 
+     
+}
+
+
+void generateCodeInFile(AST t, char* file){
+	FILE* fichier = NULL;
+	fichier = fopen(file,"a+");
+ 
+    if(t->left == NULL) {
+      fprintf(fichier,"CsteNb %d \n",t->val); 
+    }  
+    else {
+ 
+      generateCodeInFile(t->left, file); 
+      if(t->right != NULL)
+        generateCodeInFile(t->right, file);
+ 
+    	switch(t->car){
+			case '+' :
+				fprintf(fichier, "AddiNb\n");
+        break;
+			case '*' :
+				fprintf(fichier, "MultNb\n"); 
+        break;
+			case '-' :
+				fprintf(fichier, "SubiNb\n");
+        break;
+			 case 'M' :
+            fprintf(fichier,"NegaNb \n"); 
+            break; 
+		  }	
+    }
+	fclose(fichier);
+}
+ 

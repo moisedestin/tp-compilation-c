@@ -23,7 +23,13 @@ AST newLeafAST(int val);
 /* delete an AST */
 void freeAST(AST t);
 
+void affichageCode(AST t); 
+
+char *commandForElement(AST t);
 /* print an AST*/
 void printAST(AST t);
+
+void generateCodeInFile(AST t, char* file);
+
 
 #endif // !_AST_H_
