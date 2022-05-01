@@ -26,4 +26,7 @@ void freeAST(AST t);
 /* print an AST*/
 void printAST(AST t);
 
+/* display an AST value*/
+int displayValueAst(AST t);
+
 #endif // !_AST_H_

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "AST.h"
+#include <string.h>
 
 /* create an AST from a root value and two AST sons */
 AST newBinaryAST(char car, AST left, AST right)
@@ -53,5 +54,44 @@ void printAST(AST t)
     printAST(t->right);
     printf("] ");
   }
+}
+
+
+/* infix print an AST*/
+int displayValueAst(AST t)
+{
+  int result = 0; 
+  // int right = 0;
+  if (t!=NULL) {
+    if (t->left==NULL){
+      return t->val; 
+    }  
+    else if(strcmp(&t->car, "M") == 0){
+      return - displayValueAst(t->left);
+    }
+    else {
+       int farleft = displayValueAst(t->left);
+       int farright = displayValueAst(t->right); 
+                  //  printf(&t->car);
+ 
+      switch (t->car)
+     {
+         case '+':
+            result = farleft + farright;
+            break;
+         case '-':
+            result = farleft - farright;;
+            break;
+         case '*':
+            result = farleft * farright;
+            break;  
+    }
+      
+
+    }
+  } 
+
+ 
+  return result;
 }
 
