@@ -40,20 +40,21 @@ expression '+' expression {
 | '-' expression %prec UMOINS { $$ = newUnaryAST('M',$2); }
 | NUMBER { $$ = newLeafAST($1); }
 ;
-//expression: // an expression is
-//expression '+' term // either a sum of an expression and a term
-//| expression '-' term // or an expression minus a term
-//| term // or a term
-//;
-//term: // a term is
-//term '*' factor // either a product of a term and a factor
-//| factor // or a factor
-//;
-//factor: // a factor is
-// '(' expression ')' // either an expression surounded by parentheses
-//| '-' factor // or the negation of a factor
-//| NUMBER // or a token NUMBER
-//;
+/* result : expression PT_VIRG;
+expression: // an expression is
+expression '+' term // either a sum of an expression and a term
+| expression '-' term // or an expression minus a term
+| term // or a term
+;
+term: // a term is
+term '*' factor // either a product of a term and a factor
+| factor // or a factor
+;
+factor: // a factor is
+ '(' expression ')' // either an expression surounded by parentheses
+| '-' factor // or the negation of a factor
+| NUMBER // or a token NUMBER
+; */
 %% // denotes the end of the grammar
 // everything after %% is copied at the end of the generated .c
 int yyerror(struct _tree **pT, const char *msg){ // called by the parser if the parsing fails
