@@ -20,7 +20,7 @@ int main(int argc, char *args[]) {
 	  
 	     
 	    char* newFullFileName = strcat(strtok(args[1],"."),".jsm"); // create a jsm instead
-	    // fclose(fopen(newFullFileName, "w")); // astuce to clear file if exist
+	    fclose(fopen(newFullFileName, "w")); // astuce to clear file if exist
  
 	    generateCodeInFile(pT, newFullFileName); 
 

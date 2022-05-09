@@ -1,4 +1,4 @@
-/* file lexeur.l // [\n] { return 0; } exit sucessfully
+/* file lexeur.l [\n] { return 0; 0|[0][.][0-9]|[1-9]*[.]?[0-9]*}
 * compilation: flex lexeur.l
 * result: lex.yy.c = lexical analyser in C
  int yywrap(void){ return 1; } // function called at the end of the file 
@@ -8,10 +8,15 @@
 #include "parseur.tab.h" // token constants defined in parseur.y via #define
 %}
 %%
-0|[1-9][0-9]* { 
-    printf("lex::NUMBER %s\n",yytext);
-    yylval.num=atoi(yytext);
-     return NUMBER;
+0|[1-9][0-9]* {
+    printf("lex::NUMBER %s\n",yytext); 
+    yylval.ival=atoi(yytext);
+    return NUMBER; 
+}
+0|[1-9][0-9]*[.][0-9]* {
+    printf("lex::FLOTTANT %s\n",yytext); 
+    yylval.dval=atof(yytext);
+    return FLOAT; 
 }
 [ \t\n] { ; } // ignore space and tab
 [;]	{ return PT_VIRG; }
