@@ -15,47 +15,60 @@
     struct _tree* exp;
     int ival;
     double dval;
-} ; 
-%token PT_VIRG
-%token <dval> NUMBER
-%token <ival> FLOAT
-%type <exp> expression 
+    char* boolval;
+} ;  
+%type <exp> expression
+%token <ival> NUMBER  
+%token <dval>FLOAT // kinds of non-trivial tokens expected from the lexer
+%token EQUALS // kinds of non-trivial tokens expected from the lexer
+%token <boolval>BOOLEAN // kinds of non-trivial tokens expected from the lexer
+%token NOTEQ // kinds of non-trivial tokens expected from the lexer
+%token GREQ // kinds of non-trivial tokens expected from the lexer 
+%token LOEQ // kinds of non-trivial tokens expected from the lexer
+%token PT_VIRG 
 %start result // main non-terminal
 %left '+' '-'
 %left '*' '/' '%'
+%left '!'
+%left EQUALS NOTEQ LOEQ '<' GREQ '>' 
 %nonassoc UMOINS
 %% // denotes the begining of the grammar with bison-specific syntax
  
 result: expression PT_VIRG { *pT = $1; };
 expression:
 expression '+' expression {  
-    $$ = newBinaryAST('+',$1,$3); 
+    $$ = newBinaryAST("+",$1,$3); 
 }
 | expression '-' expression {  
-    $$ = newBinaryAST('-',$1,$3);
+    $$ = newBinaryAST("-",$1,$3);
 }
 | expression '*' expression {  
-    $$ = newBinaryAST('*',$1,$3);
+    $$ = newBinaryAST("*",$1,$3);
 }
 
 | expression '%' expression	{ 
-    $$ = newBinaryAST('%',$1,$3); 
+    $$ = newBinaryAST("%",$1,$3); 
 }
 | expression '/' expression	{ 
-    $$ = newBinaryAST('/',$1,$3); 
+    $$ = newBinaryAST("/",$1,$3); 
 }
 | '(' expression ')' { 
     $$ = $2; 
-    }
+}
 | '-' expression %prec UMOINS { 
-    $$ = newUnaryAST('M',$2);
-     }
-| NUMBER { 
-    $$ = newLeafAST($1); 
-    }
-| FLOAT			{
-     $$ = newLeafAST($1); 
-     } 
+    $$ = newUnaryAST("M",$2);
+}
+|expression EQUALS expression { $$ = newBinaryAST("==",$1,$3); }
+|expression NOTEQ expression { $$ = newBinaryAST("!=",$1,$3); }
+|expression GREQ expression	 { $$ = newBinaryAST(">=",$1,$3); }
+|expression '>' expression	 { $$ = newBinaryAST(">",$1,$3); }
+|expression LOEQ expression   { $$ = newBinaryAST("<=",$1,$3); }
+|expression '<' expression    {  $$ = newBinaryAST("<",$1,$3); }
+|'!'expression		 { $$ = newUnaryAST("!",$2); } 
+| NUMBER { $$ = newLeafAST($1); }
+| FLOAT			 { $$ = newLeafAST($1); } 
+| BOOLEAN			 { $$ = newLeafASTForBool($1); } 
+  
 ;
  
 %% // denotes the end of the grammar

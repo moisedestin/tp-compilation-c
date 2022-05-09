@@ -8,15 +8,32 @@
 #include "parseur.tab.h" // token constants defined in parseur.y via #define
 %}
 %%
-0|[1-9][0-9]* {
-    printf("lex::NUMBER %s\n",yytext); 
+0|[0][.][0-9]|[1-9]*[.]?[0-9]* { 
+    printf("lex::NUMBER %s\n",yytext);
     yylval.ival=atoi(yytext);
-    return NUMBER; 
+    return NUMBER;
 }
 0|[1-9][0-9]*[.][0-9]* {
-    printf("lex::FLOTTANT %s\n",yytext); 
-    yylval.dval=atof(yytext);
+    printf("lex::FLOTTANT %s\n",yytext);  
+    yylval.dval=atoi(yytext);
     return FLOAT; 
+}
+"True"|"False" {
+    printf("lex::BOOLEAN %s\n",yytext);
+    yylval.boolval=yytext;
+    return BOOLEAN; 
+}
+"==" { 
+    printf("lex::EQUALS %s\n",yytext); return EQUALS; 
+}
+"!=" {
+     printf("lex::NOTEQ %s\n",yytext); return NOTEQ; 
+}
+">=" { 
+    printf("lex::GREQ %s\n",yytext); return GREQ;
+}
+"<=" {
+     printf("lex::LOEQ %s\n",yytext); return LOEQ;
 }
 [ \t\n] { ; } // ignore space and tab
 [;]	{ return PT_VIRG; }
