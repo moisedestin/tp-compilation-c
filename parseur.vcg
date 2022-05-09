@@ -1,0 +1,318 @@
+graph: {
+	display_edge_labels:	yes
+	priority_phase:	yes
+	port_sharing:	no
+	crossing_weight:	median
+	splines:	yes
+	node: {
+		title:	"0"
+		label:	"state  0\n $accept -> . result $end"
+	}
+	edge: {
+		sourcename:	"0"
+		targetname:	"1"
+		label:	"NUMBER"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"0"
+		targetname:	"2"
+		label:	"'-'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"0"
+		targetname:	"3"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"0"
+		targetname:	"4"
+		label:	"result"
+		color:	green
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"0"
+		targetname:	"5"
+		label:	"expression"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"1"
+		label:	"state  1\n expression -> NUMBER ."
+	}
+	node: {
+		title:	"2"
+		label:	"state  2\n expression -> '-' . expression"
+	}
+	backedge: {
+		sourcename:	"2"
+		targetname:	"1"
+		label:	"NUMBER"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"2"
+		targetname:	"2"
+		label:	"'-'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"2"
+		targetname:	"3"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"2"
+		targetname:	"6"
+		label:	"expression"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"3"
+		label:	"state  3\n expression -> '(' . expression ')'"
+	}
+	backedge: {
+		sourcename:	"3"
+		targetname:	"1"
+		label:	"NUMBER"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"3"
+		targetname:	"2"
+		label:	"'-'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"3"
+		targetname:	"3"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"3"
+		targetname:	"7"
+		label:	"expression"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"4"
+		label:	"state  4\n $accept -> result . $end"
+	}
+	edge: {
+		sourcename:	"4"
+		targetname:	"8"
+		label:	"$end"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"5"
+		label:	"state  5\n result -> expression .\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression"
+	}
+	edge: {
+		sourcename:	"5"
+		targetname:	"9"
+		label:	"'+'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"5"
+		targetname:	"10"
+		label:	"'-'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"5"
+		targetname:	"11"
+		label:	"'*'"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"6"
+		label:	"state  6\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> '-' expression ."
+	}
+	node: {
+		title:	"7"
+		label:	"state  7\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> '(' expression . ')'"
+	}
+	edge: {
+		sourcename:	"7"
+		targetname:	"9"
+		label:	"'+'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"7"
+		targetname:	"10"
+		label:	"'-'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"7"
+		targetname:	"11"
+		label:	"'*'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"7"
+		targetname:	"12"
+		label:	"')'"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"8"
+		label:	"state  8\n $accept -> result $end ."
+	}
+	node: {
+		title:	"9"
+		label:	"state  9\n expression -> expression '+' . expression"
+	}
+	backedge: {
+		sourcename:	"9"
+		targetname:	"1"
+		label:	"NUMBER"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"9"
+		targetname:	"2"
+		label:	"'-'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"9"
+		targetname:	"3"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"9"
+		targetname:	"13"
+		label:	"expression"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"10"
+		label:	"state 10\n expression -> expression '-' . expression"
+	}
+	backedge: {
+		sourcename:	"10"
+		targetname:	"1"
+		label:	"NUMBER"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"10"
+		targetname:	"2"
+		label:	"'-'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"10"
+		targetname:	"3"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"10"
+		targetname:	"14"
+		label:	"expression"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"11"
+		label:	"state 11\n expression -> expression '*' . expression"
+	}
+	backedge: {
+		sourcename:	"11"
+		targetname:	"1"
+		label:	"NUMBER"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"11"
+		targetname:	"2"
+		label:	"'-'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"11"
+		targetname:	"3"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"11"
+		targetname:	"15"
+		label:	"expression"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"12"
+		label:	"state 12\n expression -> '(' expression ')' ."
+	}
+	node: {
+		title:	"13"
+		label:	"state 13\n expression -> expression . '+' expression\n expression -> expression '+' expression .\n expression -> expression . '-' expression\n expression -> expression . '*' expression"
+	}
+	backedge: {
+		sourcename:	"13"
+		targetname:	"11"
+		label:	"'*'"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"14"
+		label:	"state 14\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression '-' expression .\n expression -> expression . '*' expression"
+	}
+	backedge: {
+		sourcename:	"14"
+		targetname:	"11"
+		label:	"'*'"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"15"
+		label:	"state 15\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression '*' expression ."
+	}
+
+
+}

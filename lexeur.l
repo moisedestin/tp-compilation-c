@@ -10,8 +10,30 @@
 %%
 0|[0][.][0-9]|[1-9]*[.]?[0-9]* { 
     printf("lex::NUMBER %s\n",yytext);
-    yylval.num=atoi(yytext);
-     return NUMBER;
+    yylval.ival=atoi(yytext);
+    return NUMBER;
+}
+0|[1-9][0-9]*[.][0-9]* {
+    printf("lex::FLOTTANT %s\n",yytext);  
+    yylval.dval=atoi(yytext);
+    return FLOAT; 
+}
+"True"|"False" {
+    printf("lex::BOOLEAN %s\n",yytext);
+    yylval.boolval=yytext;
+    return BOOLEAN; 
+}
+"==" { 
+    printf("lex::EQUALS %s\n",yytext); return EQUALS; 
+}
+"!=" {
+     printf("lex::NOT %s\n",yytext); return NOT; 
+}
+">=" { 
+    printf("lex::GREQ %s\n",yytext); return GREQ;
+}
+"<=" {
+     printf("lex::LOEQ %s\n",yytext); return LOEQ;
 }
 [ \t\n] { ; } // ignore space and tab
 [;]	{ return PT_VIRG; }

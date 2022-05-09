@@ -5,6 +5,7 @@
 struct _tree {
   char car;                    	/* char for arithmetic operation */
   int val;			/* int  for value */
+  char* boo;
   struct _tree* left;    	/* used for unary node but NULL if leaf */
   struct _tree* right;   	/* NULL if unary node or leaf*/
 };
@@ -19,6 +20,8 @@ AST newUnaryAST(char car, AST son);
 
 /* create an AST leaf from a value */
 AST newLeafAST(int val);
+
+AST newLeafASTForBool(char* chaine);
 
 /* delete an AST */
 void freeAST(AST t);

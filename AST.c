@@ -10,6 +10,8 @@ AST newBinaryAST(char car, AST left, AST right)
     t->car=car;
     t->left=left;
     t->right=right;
+    t->boo = NULL;
+
   } else printf("MALLOC! ");
   return t;
 }
@@ -26,11 +28,24 @@ AST newLeafAST(int val)
   AST t=(struct _tree*) malloc(sizeof(struct _tree));
   if (t!=NULL){	/* malloc ok */
     t->val=val;
+    t->boo=NULL;
     t->left=NULL;
     t->right=NULL;
   } else printf("MALLOC! ");
   return t;
 }
+
+AST newLeafASTForBool(char* val){
+  AST t=(struct _tree*) malloc(sizeof(struct _tree));
+  if (t!=NULL){	/* malloc ok */
+    t->boo= val; 
+    t->car=NULL;
+    t->left=NULL;
+    t->right=NULL;
+  } else printf("MALLOC! ");
+  return t;
+}
+
 
 /* delete an AST */
 void freeAST(AST t)
@@ -54,4 +69,6 @@ void printAST(AST t)
     printf("] ");
   }
 }
+
+
 

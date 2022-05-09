@@ -13,15 +13,25 @@
 %parse-param {struct _tree* *pT}
 
 %union {
-struct _tree* exp;
-int num;
-} ;
+    struct _tree* exp;
+    int ival;
+    double dval;
+    char* boolval;
+} ; 
 %type <exp> expression
-%token <num> NUMBER 
+%token <ival> NUMBER  
+%token <dval>FLOAT // kinds of non-trivial tokens expected from the lexer
+%token EQUALS // kinds of non-trivial tokens expected from the lexer
+%token <boolval>BOOLEAN // kinds of non-trivial tokens expected from the lexer
+%token NOT // kinds of non-trivial tokens expected from the lexer
+%token GREQ // kinds of non-trivial tokens expected from the lexer 
+%token LOEQ // kinds of non-trivial tokens expected from the lexer
 %token PT_VIRG
 %start result // main non-terminal
 %left '+' '-'
-%left '*' '%'
+%left '*' '/' '%'
+%left '!'
+%left EQUALS NOT LOEQ '<' GREQ '>' 
 %nonassoc UMOINS
 %% // denotes the begining of the grammar with bison-specific syntax
  
@@ -38,7 +48,17 @@ expression '+' expression {
 }
 | '(' expression ')' { $$ = $2; }
 | '-' expression %prec UMOINS { $$ = newUnaryAST('M',$2); }
+|expression EQUALS expression { $$ = newBinaryAST("==",$1,$3); }
+|expression NOT expression { $$ = newBinaryAST("!=",$1,$3); }
+|expression GREQ expression	 { $$ = newBinaryAST(">=",$1,$3); }
+|expression '>' expression	 { $$ = newBinaryAST(">",$1,$3); }
+|expression LOEQ expression   { $$ = newBinaryAST("<=",$1,$3); }
+|expression '<' expression    { $$ = newBinaryAST("<",$1,$3); }
+|'!'expression		 { $$ = newUnaryAST("!",$2); } 
 | NUMBER { $$ = newLeafAST($1); }
+| FLOAT			 { $$ = newLeafAST($1); } 
+| BOOLEAN			 { $$ = newLeafASTForBool($1); } 
+  
 ;
 //expression: // an expression is
 //expression '+' term // either a sum of an expression and a term

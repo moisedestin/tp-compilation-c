@@ -9,11 +9,12 @@ extern FILE* yyin;
 int main(int argc, char *args[]) {
 
     yyin = fopen(args[1],"r");
-    AST *pT = malloc(sizeof(struct _tree*)); 
-    // AST pT;
+    // AST *pT = malloc(sizeof(struct _tree*)); 
+    AST pT;
 
 if (yyparse(pT) == 0) { // call to the parsing (and lexing) function
     printf("\nParsing:: syntax OK\n"); // reached if parsing follows the grammar
+    printAST(pT);
 }
     exit(EXIT_SUCCESS);
 }
