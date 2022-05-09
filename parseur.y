@@ -8,11 +8,22 @@
 int yylex(void); // -Wall : avoid implicit call
 int yyerror(const char*); // on fonctions defined by the generator
 %}
+ 
+ 
+ 
 %token NUMBER // kinds of non-trivial tokens expected from the lexer
+%token FLOAT // kinds of non-trivial tokens expected from the lexer
+%token EQUALS // kinds of non-trivial tokens expected from the lexer
+%token BOOLEAN // kinds of non-trivial tokens expected from the lexer
+%token NOT // kinds of non-trivial tokens expected from the lexer
+%token GREQ // kinds of non-trivial tokens expected from the lexer 
+%token LOEQ // kinds of non-trivial tokens expected from the lexer
 %token PT_VIRG
 %start result // main non-terminal
 %left '+' '-'
-%left '*' '%'
+%left '*' '/' '%'
+%left '!'
+%left EQUALS NOT LOEQ '<' GREQ '>' 
 %nonassoc UMOINS
 %% // denotes the begining of the grammar with bison-specific syntax
 result: expression PT_VIRG
@@ -22,7 +33,15 @@ expression '+' expression
 | expression '*' expression
 | '(' expression ')'
 | '-' expression %prec UMOINS
+| expression EQUALS expression 
+| expression NOT expression 
+| expression GREQ expression   
+| expression '>' expression    
+| expression LOEQ expression   
+| expression '<' expression 
 | NUMBER
+| FLOAT
+| BOOLEAN
 ;
 //expression: // an expression is
 //expression '+' term // either a sum of an expression and a term
