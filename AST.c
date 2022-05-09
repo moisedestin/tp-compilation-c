@@ -58,7 +58,7 @@ void printAST(AST t)
 void affichageCode(AST t)
 {	
   if(t->left == NULL) {
-    printf("CsteNb %d \n",t->val); 
+    printf("CsteNb %d \n", t->val); 
   }  
   else {
  
@@ -77,6 +77,12 @@ void affichageCode(AST t)
           case '-' :
             printf("SubiNb\n"); 
             break;
+          case '/' :
+            printf("DiviNb\n"); 
+            break;
+          case '%' :
+            printf("ModuNb\n"); 
+            break;
           case 'M' :
             printf("NegaNb\n"); 
             break; 
@@ -92,7 +98,7 @@ void generateCodeInFile(AST t, char* file){
 	fichier = fopen(file,"a+");
  
     if(t->left == NULL) {
-      fprintf(fichier,"CsteNb %d \n",t->val); 
+      fprintf(fichier,"CsteNb %f \n",t->val); 
     }  
     else {
  
@@ -110,6 +116,12 @@ void generateCodeInFile(AST t, char* file){
 			case '-' :
 				fprintf(fichier, "SubiNb\n");
         break;
+      case '/' :
+            fprintf(fichier,"DiviNb\n"); 
+            break;
+      case '%' :
+            fprintf(fichier,"ModuNb\n"); 
+            break;
 			 case 'M' :
             fprintf(fichier,"NegaNb \n"); 
             break; 
