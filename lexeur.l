@@ -29,6 +29,8 @@
      printf("lex::LOEQ %s\n",yytext); return LOEQ;
 }
 [ \t\n] { ; } // ignore space and tab
+"//"[^\n]* { ; }/*  */
+"/*"([^*]|"*"+[^*/])*"*"+"/" { ; }/*   */
 [;]	{ return PT_VIRG; }
 . { printf("lex::char %s\n",yytext); return yytext[0]; } // other one-%%
 %%
