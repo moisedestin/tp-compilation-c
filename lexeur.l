@@ -1,4 +1,4 @@
-/* file lexeur.l // [\n] { return 0; } exit sucessfully
+/* file lexeur.l // [\n] { return 0; } exit sucessfully 0|[0][.][0-9]|[1-9]*[.]?[0-9]* { printf("lex::NUMBER %s\n",yytext); return NUMBER; }
 * compilation: flex lexeur.l
 * result: lex.yy.c = lexical analyser in C
  int yywrap(void){ return 1; } // function called at the end of the file 
@@ -8,16 +8,9 @@
 #include "parseur.tab.h" // token constants defined in parseur.y via #define
 %}
 %%
-0|[0][.][0-9]|[1-9]*[.]?[0-9]* { 
-    printf("lex::NUMBER %s\n",yytext);
-    yylval.ival=atoi(yytext);
-    return NUMBER;
-}
-0|[1-9][0-9]*[.][0-9]* {
-    printf("lex::FLOTTANT %s\n",yytext);  
-    yylval.dval=atoi(yytext);
-    return FLOAT; 
-}
+
+(0|[1-9][0-9]*)(("."[0-9]*)?("e"-?[0-9]+)?)|("."[0-9]+)("e"-?[0-9]+)? { printf("lex::NUMBER %s\n",yytext); yylval.ival=yytext; return NUMBER; }
+([a-z,A-Z,0-9,_]*|"0"?("."0*)?)"/"((".")?"0"|"0"("."0*)) { printf("lex::NAN %s\n",yytext); yylval.boolval=yytext; return NAN; }
 "True"|"False" {
     printf("lex::BOOLEAN %s\n",yytext);
     yylval.boolval=yytext;
@@ -27,7 +20,7 @@
     printf("lex::EQUALS %s\n",yytext); return EQUALS; 
 }
 "!=" {
-     printf("lex::NOT %s\n",yytext); return NOT; 
+     printf("lex::NOTEQ %s\n",yytext); return NOTEQ; 
 }
 ">=" { 
     printf("lex::GREQ %s\n",yytext); return GREQ;
