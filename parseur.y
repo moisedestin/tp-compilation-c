@@ -88,10 +88,11 @@ expression '+' expression {
 |expression '<' expression    {  $$ = newBinaryAST("<",$1,$3); }
 |'!'expression		 { $$ = newUnaryAST("!",$2); } 
 | NUMBER { $$ = newLeafAST($1); }
+  | BOOLEAN			 { $$ = newLeafASTForBoolAndNan($1); } 
+
  | IDENT			 { $$ = newLeafASTide($1); }
   | IDENT INCRE		 { $$ = newUnaryASTide($1,"++");}
-  | BOOLEAN			 { $$ = newLeafASTForBool($1); } 
-    | NAN			 { $$ = newLeafASTForBool($1); }
+    | NAN			 { $$ = newLeafASTForBoolAndNan($1); }
 
 ;
  

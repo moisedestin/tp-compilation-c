@@ -78,7 +78,7 @@ AST newLeafAST(char* val)
   return t;
 }
 
-AST newLeafASTForBool(char* val){
+AST newLeafASTForBoolAndNan(char* val){
   AST t=(struct _tree*) malloc(sizeof(struct _tree));
   if (t!=NULL){	/* malloc ok */
  
@@ -153,7 +153,7 @@ char* chaine(char* c){
 void affichageCode(AST t)
 {	
    if (t->left!=NULL){ 
-    	//printf("car 2 %s \n",t->car);
+    	 
     	if(!strcmp(t->car,"Else"))
 	    	printf("Jump %d \n",t->taille-1); 
     	  affichageCode(t->left);
@@ -198,10 +198,6 @@ void affichageCode(AST t)
     
   
   else {
- 
-     
-
-         
 
       if(!strcmp(t->car,"+"))
         printf("AddiNb\n");
@@ -244,17 +240,71 @@ void generateCodeInFile(AST t, char* file){
 	FILE* fichier = NULL;
 	fichier = fopen(file,"a+");
  
-    if(t->left == NULL) {
-       if(t->boo != NULL)
-      fprintf(fichier,"CsteBo %s \n",t->boo); 
-    else   
-      fprintf(fichier,"CsteNb %s \n",t->val); 
-    }  
+    if (t->left!=NULL){
+    	if(!strcmp(t->car,"Else")){
+	    	FILE* fichier = NULL;
+		fichier = fopen(file,"a+");
+	    	fprintf(fichier,"Jump %d \n",t->taille-1);
+	    	fclose(fichier);
+	}
+    	generateCodeInFile(t->left,file); 
+    	
+    }
+    if (t->right!=NULL){ 
+    	if(!strcmp(t->car,"If")){
+    	       FILE* fichier = NULL;
+	       fichier = fopen(file,"a+");
+	       fprintf(fichier,"ConJmp %d \n",t->taille-1);
+	       fclose(fichier);
+	} 
+    	generateCodeInFile(t->right,file);
+    }
+   
+    if(t->left == NULL){
+    	if(t->boo == NULL && (t->ide == NULL)){
+    		char c[9] = {'+','*','/','<','>','=','!',';'};
+	        char c2[9] = {'+','*','-','/','<','>','=','!',';'};
+	        
+	        if(!strstr(t->val,"e-"))
+  			strtok(t->val,c2);
+  		else
+  			strtok(t->val,c);
+  		FILE* fichier = NULL;
+	        fichier = fopen(file,"a+");
+  		fprintf(fichier,"CsteNb %s \n",t->val);
+  		fclose(fichier);
+    	}
+	else if (t->ide == NULL){
+		if(strcmp(t->boo,"NaN")){
+			FILE* fichier = NULL;
+	        	fichier = fopen(file,"a+");
+			fprintf(fichier,"CsteBo %s \n",t->boo);
+			fclose(fichier);
+		}
+	}
+	else if (t->boo == NULL) {
+		if(strstr(t->ide, "++")){
+			strtok(t->ide,"++");
+			FILE* fichier = NULL;
+	        	fichier = fopen(file,"a+");
+			fprintf(fichier,"GetVar %s\n",t->ide);
+			fprintf(fichier,"CstNb 1\n");
+			fprintf(fichier,"AddiNb\n");
+			fprintf(fichier,"SetVar %s\n", t->ide);
+			fclose(fichier);
+		}
+		else{
+			FILE* fichier = NULL;
+	        	fichier = fopen(file,"a+");
+			fprintf(fichier,"GetVar %s\n",t->ide); 
+			fclose(fichier);
+		}
+	} 	
+    } 
+     	 
+
     else {
- 
-      generateCodeInFile(t->left, file); 
-      if(t->right != NULL)
-        generateCodeInFile(t->right, file);
+  
 
       if(!strcmp(t->car,"+"))
         fprintf(fichier,"AddiNb\n");
@@ -282,6 +332,11 @@ void generateCodeInFile(AST t, char* file){
         fprintf(fichier,"NotEql\n");
       else if (strcmp(t->car, "!") == 0)
     		fprintf(fichier,"Not \n");
+      else if (!strcmp(t->car, "=") && t->ide != NULL) {
+    		strtok(t->ide,"=");
+    		printf("SetVar %s \n",t->ide); 
+    	}
+
       }
       
 	fclose(fichier);

@@ -26,7 +26,7 @@ AST newBinaryASTide(char* car, char* ide, AST son);
 /* create an AST leaf from a value */
 AST newLeafAST(char* val);
 
-AST newLeafASTForBool(char* chaine);
+AST newLeafASTForBoolAndNan(char* chaine);
 AST newLeafASTide(char* chaine);
 
 /* delete an AST */
