@@ -26,6 +26,10 @@
 "<=" {
      printf("lex::LOEQ %s\n",yytext); return LOEQ;
 }
+"If" 		{ printf("lex::IF %s\n",yytext); return IF; }
+"Else" 	{ printf("lex::ELSE %s\n",yytext); return ELSE; }
+[a-z][0-9,A-Z,a-z,_]* { printf("lex::IDENT %s\n",yytext); return IDENT; }
+"++"		{ printf("lex::INCRE %s\n",yytext); return INCRE; }
 [ \t\n] { ; } // ignore space and tab
 "//"[^\n]* { ; }/*  */
 "/*"([^*]|"*"+[^*/])*"*"+"/" { ; }/*   */

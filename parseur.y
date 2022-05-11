@@ -19,14 +19,36 @@ int yyerror(const char*); // on fonctions defined by the generator
 %token GREQ // kinds of non-trivial tokens expected from the lexer 
 %token LOEQ // kinds of non-trivial tokens expected from the lexer
 %token PT_VIRG
+%token IDENT  
+%token IF
+%token ELSE
+
 %start result // main non-terminal
+
+%left '='
+%left EQUALS NOTEQ LOEQ '<' GREQ '>' 
 %left '+' '-'
 %left '*' '/' '%'
 %left '!'
-%left EQUALS NOTEQ LOEQ '<' GREQ '>' 
+%left INCRE
 %nonassoc UMOINS
 %% // denotes the begining of the grammar with bison-specific syntax
-result: expression PT_VIRG
+
+result : programme
+	;
+	
+programme: commande
+	| commande programme 
+	
+	;
+
+commande: expression PT_VIRG
+	| IDENT '=' expression PT_VIRG
+	| PT_VIRG
+	| '{'programme'}'
+	| IF '('expression')' commande ELSE commande 
+	;
+
 expression:
 expression '+' expression
 | expression '-' expression
@@ -44,8 +66,9 @@ expression '+' expression
 |'!' expression	
 | NUMBER 
 | BOOLEAN
-| NAN
-;
+| IDENT
+| IDENT INCRE
+| NAN;
  
 //expression: // an expression is
 //expression '+' term // either a sum of an expression and a term
