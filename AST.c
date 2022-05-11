@@ -199,9 +199,7 @@ void affichageCode(AST t)
   
   else {
  
-      affichageCode(t->left); 
-      if(t->right != NULL)
-        affichageCode(t->right);
+     
 
          
 
